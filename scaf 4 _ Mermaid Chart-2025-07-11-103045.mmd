@@ -1,0 +1,74 @@
+%% SCAF Advanced Schematic Diagram with Feedback Loop
+%% Author: Assistant de Recherche
+%% Version: 2.0 (Cognitive Learning Edition)
+
+graph TB
+
+    %% ------------------- CSS-like Styling for a "Transformer" Look -------------------
+    classDef inputNode fill:#f9f9f9,stroke:#333,stroke-width:1px;
+    classDef encoderLayer fill:#dbe4ff,stroke:#5c6bc0,stroke-width:2px;
+    classDef cognitiveLayer fill:#e1d5e7,stroke:#8e44ad,stroke-width:2px,color:#000;
+    classDef decoderLayer fill:#ffe4d9,stroke:#ff7043,stroke-width:2px;
+    classDef outputNode fill:#d4edda,stroke:#155724,stroke-width:2px;
+    classDef memoryNode fill:#fff9c4,stroke:#fbc02d,stroke-width:2px;
+    classDef feedbackPath stroke:#fbc02d,stroke-width:2px,stroke-dasharray: 5 5;
+
+    %% ------------------- Diagram Structure -------------------
+
+    %% Layer 1: Data Inputs (Top Layer)
+    subgraph " "
+        direction LR
+        X[("<b>Numerical Data</b><br>Time Series X<sub>t</sub>")]:::inputNode;
+        T[("<b>Textual Data</b><br>News, Reports T<sub>t</sub>")]:::inputNode;
+    end
+    
+    %% Layer 2: Contextualization - The "Encoder" part of the architecture
+    subgraph "<b>Architectural Layer 1: Context Encoding</b>"
+        CE["<b>Context Engine</b><br><i>Generates a rich world representation</i>"]:::encoderLayer;
+    end
+
+    X & T -- "| <i>Raw Data Feeds</i> |" --> CE;
+
+    %% Layer 3: Strategic Planning - The Core of Cognition
+    subgraph "<b>Architectural Layer 2: Strategic Cognition</b>"
+        LLM["<img src='https://www.svgrepo.com/show/513511/brain.svg' width='50' /><br><b>Cognitive Core (LLM)</b><br><i>Reasons, Plans, and Adapts Strategy</i>"]:::cognitiveLayer;
+    end
+    
+    CE -- "| <b>Enriched Context Dossier C<sub>t</sub></b><br><i>'What is the state of the world?'</i> |" --> LLM;
+
+    %% Layer 4: Tactical Execution - The "Decoder" part of the architecture
+    subgraph "<b>Architectural Layer 3: Tactical Execution</b>"
+        subgraph "Expert Model Toolbox"
+            direction LR
+            M1["GARCH"]:::decoderLayer;
+            M2["PatchTST"]:::decoderLayer;
+            M3["...others"]:::decoderLayer;
+        end
+        AG["<b>Strategic Aggregator</b><br><i>Executes the cognitive plan</i>"]:::decoderLayer;
+    end
+
+    LLM -- "| <b>Strategic Plan Π<sub>t</sub></b><br><i>'Here is the plan to execute'</i> |" --> AG;
+    M1 & M2 & M3 -.-> AG;
+    
+    %% Layer 5: Output and Real-World Interaction
+    subgraph "<b>Architectural Layer 4: Output & Grounding</b>"
+        FP[("<b>SCAF Prediction</b><br>Ŷ<sub>t+h</sub>")]:::outputNode;
+    end
+
+    AG -- "| <i>Weighted Forecast</i> |" --> FP;
+
+    %% Layer 6: The Feedback Loop - The Learning part of the architecture
+    subgraph "<b>Architectural Layer 5: Experience & Learning (Feedback Loop)</b>"
+        direction LR
+        OUTCOME[("<b>Actual Outcome</b><br><i>Real-world result y<sub>t+h</sub></i>")]:::inputNode
+        MEM[("<b>Experience Memory</b><br><i>Stores (Context, Plan, Outcome) tuples</i>")]:::memoryNode
+    end
+    
+    FP -.-> |"<i>Is compared to...</i>"| OUTCOME
+    OUTCOME -- "| <b>Performance Loss L<sub>t</sub></b><br><i>'How well did our plan work?'</i> |" --> MEM
+
+    MEM -.-> |"<b>Learned Heuristics &<br>Corrective Examples</b><br><i>(for Fine-tuning or In-Context Learning)</i>"| LLM
+    
+    %% Applying final class to feedback path
+    linkStyle 8 stroke:#fbc02d,stroke-width:2px,stroke-dasharray: 5 5
+  
